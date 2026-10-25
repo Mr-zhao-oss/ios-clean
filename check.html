@@ -29,7 +29,7 @@
 <div id="list"></div>
 <div id="sum">正在检测…</div>
 <button onclick="location.reload()">重新检测</button>
-<p class="note">说明：检测方式是让浏览器去解析并连接这些域名。如果全绿，说明 DNS 过滤已生效。<br>如果全红，检查是否装好描述文件、或者你所在网络把 DNS 53 端口劫持了（换 Wi-Fi / 开飞行模式重试）。</p>
+<p class="note">说明：检测方式是让浏览器去解析并连接这些域名。如果全绿，说明 DNS 过滤已生效。<br>如果全红：确认 Wi-Fi 的「配置 DNS」已改成手动并填了 94.140.14.14，且开关过一次 Wi-Fi。部分网络会劫持 53 端口，换 Wi-Fi 或用蜂窝流量对比一下。</p>
 
 <script>
 const TARGETS = [

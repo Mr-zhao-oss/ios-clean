@@ -10,30 +10,29 @@
     --accent:#4f8cff; --ok:#35c07d; --warn:#ffb648;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{
-    margin:0;background:var(--bg);color:var(--fg);
+  body{margin:0 auto;background:var(--bg);color:var(--fg);max-width:680px;
     font:16px/1.65 -apple-system,BlinkMacSystemFont,"SF Pro SC","PingFang SC","Helvetica Neue",sans-serif;
-    padding:28px 18px 64px;max-width:680px;margin:0 auto;
-  }
+    padding:28px 18px 64px}
   h1{font-size:26px;line-height:1.3;margin:0 0 6px;letter-spacing:-.5px}
   .sub{color:var(--dim);font-size:14px;margin:0 0 26px}
-  h2{font-size:18px;margin:34px 0 12px;letter-spacing:-.3px}
+  h2{font-size:18px;margin:36px 0 12px;letter-spacing:-.3px}
+  h2 .n{display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;
+    background:var(--accent);color:#fff;border-radius:6px;font-size:13px;margin-right:8px;vertical-align:2px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
-  .btn{
-    display:block;text-align:center;text-decoration:none;font-weight:600;font-size:17px;
-    background:var(--accent);color:#fff;border-radius:12px;padding:16px;margin:18px 0 8px;
-  }
+  .btn{display:block;text-align:center;text-decoration:none;font-weight:600;font-size:17px;
+    background:var(--accent);color:#fff;border-radius:12px;padding:16px;margin:16px 0 8px}
   .btn:active{opacity:.85}
   .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--fg);font-weight:500;font-size:15px;padding:13px}
   ol{padding-left:20px;margin:10px 0}
-  ol li{margin:8px 0}
-  code{background:#0a0c10;border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:14px}
-  .tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:20px;background:#1e2530;color:var(--dim);margin-right:6px}
+  ol li{margin:9px 0}
+  code{background:#0a0c10;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:14px;word-break:break-all}
+  .big{font-size:19px;font-weight:700;letter-spacing:.3px}
+  .tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:20px;background:#1e2530;color:var(--dim);margin:0 6px 6px 0}
   .tag.ok{background:rgba(53,192,125,.14);color:var(--ok)}
   .tag.warn{background:rgba(255,182,72,.14);color:var(--warn)}
   table{width:100%;border-collapse:collapse;font-size:14px}
   td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top}
-  td:first-child{color:var(--dim);width:42%;padding-right:10px}
+  td:first-child{color:var(--dim);width:44%;padding-right:10px}
   .dim{color:var(--dim);font-size:14px}
   .foot{margin-top:40px;color:#5d6675;font-size:12px;text-align:center;line-height:1.8}
   a{color:var(--accent)}
@@ -42,26 +41,59 @@
 <body>
 
 <h1>iOS 免费去广告</h1>
-<p class="sub">视频里那套叫 Jinx，试用 14 天后 3 元/月。<br>这里是它的免费替代：不装 App、不装证书、不越狱。</p>
+<p class="sub">视频里那套叫 Jinx：试用 14 天，之后 3 元/月 或 24 元买断。<br>这里是免费替代，四条路，按愿意折腾的程度挑一条。</p>
 
 <div class="card">
-  <span class="tag ok">零成本</span><span class="tag">系统级</span><span class="tag">1 分钟</span>
-  <p class="dim" style="margin:12px 0 0">原理：iOS 去广告 App 的本质是「接管 DNS」——广告 SDK 请求广告域名时，DNS 直接回 <code>0.0.0.0</code>，广告请求发不出去，开屏/插屏就加载失败。<br>我们把系统 DNS 指向带广告过滤的解析器，效果一样，钱一分不花。</p>
+  <span class="tag ok">零成本</span><span class="tag">不用装 App</span><span class="tag">1 分钟</span>
+  <p class="dim" style="margin:12px 0 0">
+  原理：iOS 去广告 App 的本质就是「把广告域名解析成 <code>0.0.0.0</code>」——广告 SDK 拿不到服务器地址，
+  开屏和插屏就加载失败。我们直接把 DNS 换成带广告过滤的解析器，效果一样，钱一分不花。</p>
 </div>
 
-<a class="btn" href="dist/clean-dns.mobileconfig">① 下载描述文件</a>
-<a class="btn ghost" href="check.html">② 装完点这里自检拦截是否生效</a>
-
-<h2>安装步骤</h2>
+<h2><span class="n">1</span>Wi-Fi 改 DNS（最快，现在就能做）</h2>
 <div class="card">
+<p class="dim" style="margin-top:0">不用装任何东西，30 秒：</p>
 <ol>
-  <li>用 <b>Safari</b> 打开本页（微信里点开不行，右上角选「在 Safari 中打开」）</li>
-  <li>点上面的「下载描述文件」→ 弹窗选<b>允许</b></li>
-  <li>打开 设置 → 顶部「已下载的描述文件」→ 选择它 → <b>安装</b> → 输锁屏密码</li>
-  <li>装完回到浏览器，点「自检」确认广告域名已被拦</li>
+  <li>设置 → 无线局域网 → 点当前 Wi-Fi 右边的 <b>ⓘ</b></li>
+  <li>下滑到 <b>配置 DNS</b> → 改成 <b>手动</b></li>
+  <li>删掉原有服务器，点「添加服务器」，填：<br><code class="big">94.140.14.14</code><br>再加一条备用：<code class="big">94.140.15.15</code></li>
+  <li>点右上角 <b>存储</b>，然后开关一次 Wi-Fi</li>
 </ol>
-<p class="dim" style="margin:12px 0 0">如果第 2 步只是把文件存进了「文件」App、没弹安装：打开「文件」→ 下载 → 双击 <code>clean-dns.mobileconfig</code>，它会跳到设置让你安装。</p>
-<p class="dim" style="margin-bottom:0">删掉它：设置 → 通用 → VPN 与设备管理 → 删除「免费去广告·DNS 过滤」。系统 DNS 立刻恢复原样。</p>
+<a class="btn ghost" href="check.html">装完点这里自检拦截是否生效</a>
+<p class="dim" style="margin:12px 0 0">局限：只对 Wi-Fi 生效，用蜂窝流量时不管用（iOS 不让改蜂窝 DNS，除非装 VPN 类 App）。</p>
+</div>
+
+<h2><span class="n">2</span>App 方案（家庭 Wi-Fi + 蜂窝都管）</h2>
+<div class="card">
+<p class="dim" style="margin-top:0">
+用免费开源的 <b>Karing</b>（App Store 免费，需美区 Apple ID）或 <b>sing-box</b>，导入我配好的规则：全部流量直连、只丢广告域名、可自己加域名、有拦截日志。
+</p>
+<table>
+  <tr><td>Karing / Clash / Stash</td><td><a href="dist/clash.yaml">clash.yaml</a></td></tr>
+  <tr><td>sing-box / SFI / Hiddify</td><td><a href="dist/sing-box.json">sing-box.json</a></td></tr>
+  <tr><td>AdGuard Home / 路由器</td><td><a href="dist/hosts.txt">hosts.txt</a></td></tr>
+  <tr><td>纯域名清单</td><td><a href="dist/domains.txt">domains.txt</a></td></tr>
+</table>
+<p class="dim" style="margin:12px 0 0">App 里「配置 → 添加 → 从链接导入」，粘贴上表对应文件的完整地址。这等价于 Jinx 的「DNS 保护」，但不装证书、不做中间人。</p>
+</div>
+
+<h2><span class="n">3</span>全系统加密过滤（要自己有台服务器）</h2>
+<div class="card">
+<p class="dim" style="margin-top:0">
+iOS 原生描述文件只支持加密 DNS（DoT/DoH），而境外 DoH 在国内 443 端口全被掐（本项目实测：AdGuard / Cloudflare / Google / Quad9 / ControlD 全部超时）。
+所以这条路要你自己部署一个过滤解析器——<code>doh/</code> 里有 Cloudflare Workers 和阿里云函数计算两版现成代码，免费额度足够个人用。
+</p>
+<ol>
+  <li>部署 <code>doh/worker.js</code> 或 <code>doh/app.py</code>，拿到自己的地址</li>
+  <li>跑 <code>python make_profile.py --doh https://你的域名/dns-query</code></li>
+  <li>用 Safari 打开 <code>dist/clean-dns-doh.mobileconfig</code> 安装</li>
+</ol>
+<p class="dim" style="margin:12px 0 0">提示：Cloudflare 的 <code>*.workers.dev</code> 在大陆基本不通，必须绑自己的域名。这里不提供现成的描述文件下载——那必须是你自己的地址，给假的等于骗你。</p>
+</div>
+
+<h2><span class="n">4</span>只拦 Safari（最省事）</h2>
+<div class="card">
+<p class="dim" style="margin:0">App Store 搜 <b>AdGuard</b>，免费版即可，在 Safari 设置里开启它的内容拦截器。网页广告基本清净，App 内广告它管不了（那是付费功能）。</p>
 </div>
 
 <h2>能拦住什么，拦不住什么</h2>
@@ -69,32 +101,36 @@
 <table>
   <tr><td>✅ 网页广告</td><td>Safari、App 内置浏览器</td></tr>
   <tr><td>✅ App 开屏/插屏</td><td>只要它走域名请求广告接口（多数中小 App）</td></tr>
-  <tr><td>✅ 追踪/统计</td><td>双击、Google 广告、AppLovin、Unity 等</td></tr>
-  <tr><td>⚠️ 国内大厂广告</td><td>抖音、淘宝、微博等用 <b>IP 直连 / 私有 HTTPDNS</b>，DNS 层拦不到——Jinx 靠装证书中间人破解，代价是把你所有 HTTPS 流量交给第三方</td></tr>
-  <tr><td>❌ 已缓存的广告</td><td>装完先清一遍后台再重启手机，效果才明显（UP 主也是这么说的）</td></tr>
+  <tr><td>✅ 追踪/统计</td><td>双击、Google Ads、AppLovin、Unity 等</td></tr>
+  <tr><td>⚠️ 国内大厂广告</td><td>抖音、淘宝、微博用 <b>IP 直连 / 私有 HTTPDNS</b>，DNS 层拦不到。Jinx 靠装根证书做中间人破解，代价是把全部 HTTPS 流量交给它</td></tr>
+  <tr><td>❌ 已缓存广告</td><td>改完先清后台再重启手机，效果才明显（UP 主也这么说）</td></tr>
 </table>
 </div>
 
-<h2>想要更彻底：用规则表自己拦</h2>
+<h2>本项目的实测数据</h2>
 <div class="card">
-<p class="dim" style="margin-top:0">DNS 描述文件用的是公共过滤列表，国内广告域名覆盖不全。下面这套是我整理的规则文件，装在免费开源的 <b>Karing / sing-box</b> 里，本地拦截、可自己加域名、还能看拦截日志：</p>
 <table>
-  <tr><td>Karing / Clash</td><td><a href="dist/clash.yaml">clash.yaml</a></td></tr>
-  <tr><td>sing-box</td><td><a href="dist/sing-box.json">sing-box.json</a></td></tr>
-  <tr><td>AdGuard Home / 路由器</td><td><a href="dist/hosts.txt">hosts.txt</a></td></tr>
-  <tr><td>纯域名清单</td><td><a href="dist/domains.txt">domains.txt</a></td></tr>
+  <tr><td>94.140.14.14:53 国内直连</td><td>✅ 通，197ms，未被劫持</td></tr>
+  <tr><td>doubleclick / googlesyndication</td><td>✅ 返回 0.0.0.0</td></tr>
+  <tr><td>applovin / pangle / gdt.qq.com</td><td>✅ 被拦</td></tr>
+  <tr><td>baidu / qq / taobao</td><td>✅ 正常解析，未误伤</td></tr>
+  <tr><td>境外 DoH（443）/ DoT（853）</td><td>❌ 全部超时</td></tr>
+  <tr><td>规则表 A/B 实测</td><td>✅ 5/5 通过（正常站点放行，广告域名丢弃）</td></tr>
 </table>
-<p class="dim" style="margin-bottom:0">App 里「配置 → 添加 → 从链接导入」，粘贴本页对应文件的地址即可。全部流量直连，只是把广告域名丢弃，不需要任何机场或节点。</p>
 </div>
 
-<h2>隐私说明</h2>
+<h2>还能免费做的</h2>
 <div class="card">
-<p class="dim" style="margin:0">描述文件方案会把你的域名查询发给 AdGuard 的公共 DNS（<code>94.140.14.14</code>，官方声明不记录个人日志）。明文 DNS 理论上可被运营商看到。如果你介意，<code>doh/</code> 目录里有一份自建加密 DoH 的代码，配 <code>python make_profile.py --doh 你的地址</code> 就能生成纯 DoH 版描述文件，查询全程加密、规则归你。</p>
+<p class="dim" style="margin:0 0 8px">设置 → 隐私与安全性 → 跟踪 → 关闭「允许 App 请求跟踪」<br>
+设置 → 隐私与安全性 → Apple 广告 → 关闭个性化广告<br>
+微信 → 设置 → 个人信息与权限 → 个性化广告管理 → 关闭<br>
+各 App 内「个性化推荐」逐个关（抖音、淘宝、微博都在设置里）</p>
+<p class="dim" style="margin:0">桌面图标小红点：长按图标 → 关闭角标。</p>
 </div>
 
 <p class="foot">
-B 站原视频：BV1Q8Nd6ZEsN（安卓 GKD 免费 / iOS Jinx 收费）<br>
-本页所有文件开源，随便改。
+原视频 BV1Q8Nd6ZEsN（安卓 GKD 免费 / iOS Jinx 收费）<br>
+本项目开源：github.com/Mr-zhao-oss/ios-clean · 规则随便改
 </p>
 
 </body>
