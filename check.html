@@ -7,10 +7,11 @@
 <style>
   :root{--bg:#0d0f13;--card:#161a22;--line:#242a36;--fg:#e8ecf3;--dim:#8b95a7;--ok:#35c07d;--bad:#ff5c5c;--warn:#ffb648}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,"PingFang SC",sans-serif;padding:28px 18px 60px;max-width:680px;margin:0 auto}
+  body{margin:0 auto;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,"PingFang SC",sans-serif;padding:28px 18px 60px;max-width:680px}
   h1{font-size:22px;margin:0 0 4px}
   .sub{color:var(--dim);font-size:14px;margin:0 0 20px}
   .row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:9px 0}
+  .row.ctrl{border-style:dashed}
   .dot{width:10px;height:10px;border-radius:50%;background:#43495a;flex:0 0 auto}
   .dot.ok{background:var(--ok);box-shadow:0 0 10px rgba(53,192,125,.6)}
   .dot.bad{background:var(--bad)}
@@ -25,13 +26,18 @@
 </head>
 <body>
 <h1>广告拦截自检</h1>
-<p class="sub">逐个请求已知的广告域名，请求失败 = 已被拦截。</p>
+<p class="sub">逐个请求已知的广告域名，请求发不出去 = 已被拦截。</p>
 <div id="list"></div>
 <div id="sum">正在检测…</div>
 <button onclick="location.reload()">重新检测</button>
-<p class="note">说明：检测方式是让浏览器去解析并连接这些域名。如果全绿，说明 DNS 过滤已生效。<br>如果全红：确认 Wi-Fi 的「配置 DNS」已改成手动并填了 94.140.14.14，且开关过一次 Wi-Fi。部分网络会劫持 53 端口，换 Wi-Fi 或用蜂窝流量对比一下。</p>
+<p class="note">
+检测方式：浏览器去解析并连接这些域名，失败即视为被拦。<br>
+最后一行是<b>对照组</b>（一个正常网站），它必须显示「可访问」——如果连它都失败，说明你当前根本没网，那上面的结果不算数。<br>
+注意：域名能解析但服务器返回 404 时也会显示失败，所以这个方法只能看个大概，真要精确看，用方案 2 的 App 看拦截日志。
+</p>
 
 <script>
+const CONTROL = ['www.baidu.com', '对照组 · 正常网站'];
 const TARGETS = [
   ['doubleclick.net',            'Google 双击广告'],
   ['pagead2.googlesyndication.com','Google AdSense'],
@@ -46,9 +52,9 @@ const list = document.getElementById('list');
 const sum  = document.getElementById('sum');
 let done = 0, blocked = 0;
 
-TARGETS.forEach(([host, label]) => {
+function probe(host, label, isControl) {
   const row = document.createElement('div');
-  row.className = 'row';
+  row.className = 'row' + (isControl ? ' ctrl' : '');
   row.innerHTML = `<div class="dot wait"></div>
     <div class="name">${label}<div class="st">${host}</div></div>
     <div class="st js">检测中</div>`;
@@ -56,27 +62,44 @@ TARGETS.forEach(([host, label]) => {
   const dot = row.querySelector('.dot');
   const st  = row.querySelector('.js');
 
-  const finish = ok => {
-    dot.className = 'dot ' + (ok ? 'ok' : 'bad');
-    st.textContent = ok ? '已拦截' : '可访问';
-    done++; if (ok) blocked++;
-    if (done === TARGETS.length) {
-      const pct = Math.round(blocked / TARGETS.length * 100);
-      sum.innerHTML = blocked === 0
-        ? '❌ <b>0/8 被拦截</b> —— DNS 过滤没生效。确认描述文件已安装，且当前网络没有劫持 53 端口。'
-        : (blocked === TARGETS.length
-            ? '✅ <b>全部 8 个广告域名已拦截</b> —— 生效了。'
-            : `⚠️ <b>${blocked}/${TARGETS.length} 被拦截（${pct}%）</b> —— 部分生效。国内广告域名不在公共列表里的很正常，改用规则表方案能补上。`);
-    }
-  };
+  return new Promise(resolve => {
+    let settled = false;
+    const finish = failed => {
+      if (settled) return;
+      settled = true;
+      dot.className = 'dot ' + (failed ? 'ok' : 'bad');
+      st.textContent = failed ? '已拦截' : '可访问';
+      resolve(failed);
+    };
+    const img = new Image();
+    const timer = setTimeout(() => finish(true), 5000);
+    img.onload  = () => { clearTimeout(timer); finish(false); };
+    img.onerror = () => { clearTimeout(timer); finish(true);  };
+    img.src = 'https://' + host + '/favicon.ico?_=' + Date.now();
+  });
+}
 
-  // 用 img 探测：DNS 被阻断 / 连接失败 → onerror；成功加载 → onload
-  const img = new Image();
-  const timer = setTimeout(() => finish(true), 4000); // 超时视为被拦
-  img.onload  = () => { clearTimeout(timer); finish(false); };
-  img.onerror = () => { clearTimeout(timer); finish(true);  };
-  img.src = 'https://' + host + '/favicon.ico?_=' + Date.now();
-});
+(async () => {
+  for (const [host, label] of TARGETS) {
+    const failed = await probe(host, label, false);
+    done++;
+    if (failed) blocked++;
+  }
+  const ctrlFailed = await probe(CONTROL[0], CONTROL[1], true);
+
+  const n = TARGETS.length;
+  let msg;
+  if (ctrlFailed) {
+    msg = '⚠️ <b>对照组也失败了</b> —— 你现在可能没联网，或者这个网络整体不通，下面的结论不可信。换个网络重试。';
+  } else if (blocked === 0) {
+    msg = `❌ <b>0/${n} 被拦截</b> —— DNS 过滤没生效。检查 Wi-Fi 的「配置 DNS」是否已改为手动、填了 94.140.14.14，并开关过一次 Wi-Fi。`;
+  } else if (blocked === n) {
+    msg = `✅ <b>全部 ${n} 个广告域名被拦截</b> —— 生效了。`;
+  } else {
+    msg = `⚠️ <b>${blocked}/${n} 被拦截（${Math.round(blocked / n * 100)}%）</b> —— 部分生效。国内广告域名不在公共过滤列表里很正常，用方案 2 的规则表能补上。`;
+  }
+  sum.innerHTML = msg;
+})();
 </script>
 </body>
 </html>
