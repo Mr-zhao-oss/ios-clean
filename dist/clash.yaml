@@ -1,0 +1,142 @@
+# 免费去广告 / Clash·mihomo·Karing·Stash 通用配置
+# 全部流量直连，只把广告域名丢弃（REJECT）。不需要任何机场/节点。
+# 域名数: 105
+port: 7890
+socks-port: 7891
+allow-lan: false
+mode: rule
+log-level: warning
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: 'off'
+global-client-fingerprint: chrome
+
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    - 'time.*.com'
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+proxies: []
+proxy-groups: []
+
+rules:
+  - DOMAIN-SUFFIX,ad.toutiao.com,REJECT
+  - DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
+  - DOMAIN-SUFFIX,pangolin-sdk-toutiao-b.com,REJECT
+  - DOMAIN-SUFFIX,pglstatp-toutiao.com,REJECT
+  - DOMAIN-SUFFIX,gromore.pangolin-sdk-toutiao.com,REJECT
+  - DOMAIN-SUFFIX,pangle.io,REJECT
+  - DOMAIN-SUFFIX,pangle-sg.com,REJECT
+  - DOMAIN-SUFFIX,adsbyte.com,REJECT
+  - DOMAIN-SUFFIX,ad.oceanengine.com,REJECT
+  - DOMAIN-SUFFIX,ssp.oceanengine.com,REJECT
+  - DOMAIN-SUFFIX,gdt.qq.com,REJECT
+  - DOMAIN-SUFFIX,pgdt.gtimg.cn,REJECT
+  - DOMAIN-SUFFIX,adsmind.gdtimg.com,REJECT
+  - DOMAIN-SUFFIX,ad.qq.com,REJECT
+  - DOMAIN-SUFFIX,e.qq.com,REJECT
+  - DOMAIN-SUFFIX,pingjs.qq.com,REJECT
+  - DOMAIN-SUFFIX,adnet.qq.com,REJECT
+  - DOMAIN-SUFFIX,adsview.qq.com,REJECT
+  - DOMAIN-SUFFIX,l.qq.com,REJECT
+  - DOMAIN-SUFFIX,wxsnsad.tc.qq.com,REJECT
+  - DOMAIN-SUFFIX,ad.kuaishou.com,REJECT
+  - DOMAIN-SUFFIX,adstatic.kuaishou.com,REJECT
+  - DOMAIN-SUFFIX,adx.kuaishou.com,REJECT
+  - DOMAIN-SUFFIX,ksad.ksapisrv.com,REJECT
+  - DOMAIN-SUFFIX,adssp.kuaishou.com,REJECT
+  - DOMAIN-SUFFIX,mobads.baidu.com,REJECT
+  - DOMAIN-SUFFIX,mobads-logs.baidu.com,REJECT
+  - DOMAIN-SUFFIX,cpro.baidu.com,REJECT
+  - DOMAIN-SUFFIX,pos.baidu.com,REJECT
+  - DOMAIN-SUFFIX,dup.baidu.com,REJECT
+  - DOMAIN-SUFFIX,asp.baidu.com,REJECT
+  - DOMAIN-SUFFIX,union.baidu.com,REJECT
+  - DOMAIN-SUFFIX,tanx.com,REJECT
+  - DOMAIN-SUFFIX,alimama.com,REJECT
+  - DOMAIN-SUFFIX,adash.m.taobao.com,REJECT
+  - DOMAIN-SUFFIX,adashx.m.taobao.com,REJECT
+  - DOMAIN-SUFFIX,atm.youku.com,REJECT
+  - DOMAIN-SUFFIX,adx.jd.com,REJECT
+  - DOMAIN-SUFFIX,show.jd.com,REJECT
+  - DOMAIN-SUFFIX,ads.jd.com,REJECT
+  - DOMAIN-SUFFIX,ad.pinduoduo.com,REJECT
+  - DOMAIN-SUFFIX,adx.pinduoduo.com,REJECT
+  - DOMAIN-SUFFIX,ad.meituan.com,REJECT
+  - DOMAIN-SUFFIX,adx.meituan.com,REJECT
+  - DOMAIN-SUFFIX,ad.weibo.com,REJECT
+  - DOMAIN-SUFFIX,ssp.sina.com.cn,REJECT
+  - DOMAIN-SUFFIX,sax.sina.com.cn,REJECT
+  - DOMAIN-SUFFIX,beacon.sina.com.cn,REJECT
+  - DOMAIN-SUFFIX,cm.bilibili.com,REJECT
+  - DOMAIN-SUFFIX,ad.bilibili.com,REJECT
+  - DOMAIN-SUFFIX,adfarm.mediaplex.com,REJECT
+  - DOMAIN-SUFFIX,miaozhen.com,REJECT
+  - DOMAIN-SUFFIX,admaster.com.cn,REJECT
+  - DOMAIN-SUFFIX,admster.com.cn,REJECT
+  - DOMAIN-SUFFIX,doubleclick.net,REJECT
+  - DOMAIN-SUFFIX,googleads.g.doubleclick.net,REJECT
+  - DOMAIN-SUFFIX,pagead2.googlesyndication.com,REJECT
+  - DOMAIN-SUFFIX,adservice.google.com,REJECT
+  - DOMAIN-SUFFIX,adnxs.com,REJECT
+  - DOMAIN-SUFFIX,rubiconproject.com,REJECT
+  - DOMAIN-SUFFIX,pubmatic.com,REJECT
+  - DOMAIN-SUFFIX,openx.net,REJECT
+  - DOMAIN-SUFFIX,criteo.com,REJECT
+  - DOMAIN-SUFFIX,smartadserver.com,REJECT
+  - DOMAIN-SUFFIX,taboola.com,REJECT
+  - DOMAIN-SUFFIX,outbrain.com,REJECT
+  - DOMAIN-SUFFIX,moatads.com,REJECT
+  - DOMAIN-SUFFIX,advertising.com,REJECT
+  - DOMAIN-SUFFIX,yieldmo.com,REJECT
+  - DOMAIN-SUFFIX,sharethrough.com,REJECT
+  - DOMAIN-SUFFIX,applovin.com,REJECT
+  - DOMAIN-SUFFIX,api.applovin.com,REJECT
+  - DOMAIN-SUFFIX,unityads.unity3d.com,REJECT
+  - DOMAIN-SUFFIX,ads.unitychina.cn,REJECT
+  - DOMAIN-SUFFIX,inmobi.com,REJECT
+  - DOMAIN-SUFFIX,api.inmobi.com,REJECT
+  - DOMAIN-SUFFIX,chartboost.com,REJECT
+  - DOMAIN-SUFFIX,vungle.com,REJECT
+  - DOMAIN-SUFFIX,ads.vungle.com,REJECT
+  - DOMAIN-SUFFIX,mintegral.com,REJECT
+  - DOMAIN-SUFFIX,adcolony.com,REJECT
+  - DOMAIN-SUFFIX,moloco.com,REJECT
+  - DOMAIN-SUFFIX,ironsrc.com,REJECT
+  - DOMAIN-SUFFIX,supersonicads.com,REJECT
+  - DOMAIN-SUFFIX,fyber.com,REJECT
+  - DOMAIN-SUFFIX,smaato.net,REJECT
+  - DOMAIN-SUFFIX,startapp.com,REJECT
+  - DOMAIN-SUFFIX,tapjoy.com,REJECT
+  - DOMAIN-SUFFIX,appnext.com,REJECT
+  - DOMAIN-SUFFIX,liftoff.io,REJECT
+  - DOMAIN-SUFFIX,adikteev.com,REJECT
+  - DOMAIN-SUFFIX,amazon-adsystem.com,REJECT
+  - DOMAIN-SUFFIX,irs01.com,REJECT
+  - DOMAIN-SUFFIX,irs01.net,REJECT
+  - DOMAIN-SUFFIX,adview.cn,REJECT
+  - DOMAIN-SUFFIX,adview.com,REJECT
+  - DOMAIN-SUFFIX,vpadn.com,REJECT
+  - DOMAIN-SUFFIX,domob.cn,REJECT
+  - DOMAIN-SUFFIX,domob.com.cn,REJECT
+  - DOMAIN-SUFFIX,adwo.com,REJECT
+  - DOMAIN-SUFFIX,youmi.net,REJECT
+  - DOMAIN-SUFFIX,moad.cn,REJECT
+  - DOMAIN-SUFFIX,adcome.cn,REJECT
+  - DOMAIN-SUFFIX,aduu.cn,REJECT
+  - DOMAIN-SUFFIX,adwhirl.com,REJECT
+  - MATCH,DIRECT

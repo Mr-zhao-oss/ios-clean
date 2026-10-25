@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>拦截自检</title>
+<style>
+  :root{--bg:#0d0f13;--card:#161a22;--line:#242a36;--fg:#e8ecf3;--dim:#8b95a7;--ok:#35c07d;--bad:#ff5c5c;--warn:#ffb648}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,"PingFang SC",sans-serif;padding:28px 18px 60px;max-width:680px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:14px;margin:0 0 20px}
+  .row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:9px 0}
+  .dot{width:10px;height:10px;border-radius:50%;background:#43495a;flex:0 0 auto}
+  .dot.ok{background:var(--ok);box-shadow:0 0 10px rgba(53,192,125,.6)}
+  .dot.bad{background:var(--bad)}
+  .dot.wait{background:var(--warn);animation:p 1s infinite alternate}
+  @keyframes p{to{opacity:.3}}
+  .name{flex:1;font-size:15px}
+  .st{font-size:13px;color:var(--dim)}
+  #sum{margin:22px 0 6px;font-size:15px;padding:16px;border-radius:12px;background:#1a1f29;border:1px solid var(--line)}
+  .note{color:var(--dim);font-size:13px;margin-top:16px;line-height:1.7}
+  button{width:100%;margin-top:18px;padding:14px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--fg);font-size:16px}
+</style>
+</head>
+<body>
+<h1>广告拦截自检</h1>
+<p class="sub">逐个请求已知的广告域名，请求失败 = 已被拦截。</p>
+<div id="list"></div>
+<div id="sum">正在检测…</div>
+<button onclick="location.reload()">重新检测</button>
+<p class="note">说明：检测方式是让浏览器去解析并连接这些域名。如果全绿，说明 DNS 过滤已生效。<br>如果全红，检查是否装好描述文件、或者你所在网络把 DNS 53 端口劫持了（换 Wi-Fi / 开飞行模式重试）。</p>
+
+<script>
+const TARGETS = [
+  ['doubleclick.net',            'Google 双击广告'],
+  ['pagead2.googlesyndication.com','Google AdSense'],
+  ['applovin.com',               'AppLovin SDK'],
+  ['unityads.unity3d.com',       'Unity Ads'],
+  ['pangle.io',                  '穿山甲 Pangle'],
+  ['mmstat.com',                 '阿里广告统计'],
+  ['gdt.qq.com',                 '腾讯优量汇'],
+  ['ad.toutiao.com',             '巨量引擎']
+];
+const list = document.getElementById('list');
+const sum  = document.getElementById('sum');
+let done = 0, blocked = 0;
+
+TARGETS.forEach(([host, label]) => {
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = `<div class="dot wait"></div>
+    <div class="name">${label}<div class="st">${host}</div></div>
+    <div class="st js">检测中</div>`;
+  list.appendChild(row);
+  const dot = row.querySelector('.dot');
+  const st  = row.querySelector('.js');
+
+  const finish = ok => {
+    dot.className = 'dot ' + (ok ? 'ok' : 'bad');
+    st.textContent = ok ? '已拦截' : '可访问';
+    done++; if (ok) blocked++;
+    if (done === TARGETS.length) {
+      const pct = Math.round(blocked / TARGETS.length * 100);
+      sum.innerHTML = blocked === 0
+        ? '❌ <b>0/8 被拦截</b> —— DNS 过滤没生效。确认描述文件已安装，且当前网络没有劫持 53 端口。'
+        : (blocked === TARGETS.length
+            ? '✅ <b>全部 8 个广告域名已拦截</b> —— 生效了。'
+            : `⚠️ <b>${blocked}/${TARGETS.length} 被拦截（${pct}%）</b> —— 部分生效。国内广告域名不在公共列表里的很正常，改用规则表方案能补上。`);
+    }
+  };
+
+  // 用 img 探测：DNS 被阻断 / 连接失败 → onerror；成功加载 → onload
+  const img = new Image();
+  const timer = setTimeout(() => finish(true), 4000); // 超时视为被拦
+  img.onload  = () => { clearTimeout(timer); finish(false); };
+  img.onerror = () => { clearTimeout(timer); finish(true);  };
+  img.src = 'https://' + host + '/favicon.ico?_=' + Date.now();
+});
+</script>
+</body>
+</html>

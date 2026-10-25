@@ -1,0 +1,131 @@
+# 免费去广告 - 核心广告域名清单（保守档）
+# 只收录「纯广告投放 / 广告素材 / 广告监测」域名，不碰统计、推送、登录、支付，
+# 目的是最大程度不破坏 App 正常功能。
+# 一行一个，支持 DOMAIN-SUFFIX 匹配（自动包含子域名）。以 # 开头为注释。
+
+# ===== 字节 / 穿山甲 / 巨量引擎 =====
+ad.toutiao.com
+pangolin-sdk-toutiao.com
+pangolin-sdk-toutiao-b.com
+pglstatp-toutiao.com
+gromore.pangolin-sdk-toutiao.com
+pangle.io
+pangle-sg.com
+adsbyte.com
+ad.oceanengine.com
+ssp.oceanengine.com
+
+# ===== 腾讯广告 / 优量汇 / 广点通 =====
+gdt.qq.com
+pgdt.gtimg.cn
+adsmind.gdtimg.com
+ad.qq.com
+e.qq.com
+pingjs.qq.com
+adnet.qq.com
+adsview.qq.com
+l.qq.com
+wxsnsad.tc.qq.com
+
+# ===== 快手广告 =====
+ad.kuaishou.com
+adstatic.kuaishou.com
+adx.kuaishou.com
+ksad.ksapisrv.com
+adssp.kuaishou.com
+
+# ===== 百度 / 百青藤 =====
+mobads.baidu.com
+mobads-logs.baidu.com
+cpro.baidu.com
+pos.baidu.com
+dup.baidu.com
+asp.baidu.com
+union.baidu.com
+
+# ===== 阿里妈妈 / 淘宝客 =====
+tanx.com
+alimama.com
+adash.m.taobao.com
+adashx.m.taobao.com
+atm.youku.com
+
+# ===== 京东 / 拼多多 / 美团 =====
+adx.jd.com
+show.jd.com
+ads.jd.com
+ad.pinduoduo.com
+adx.pinduoduo.com
+ad.meituan.com
+adx.meituan.com
+
+# ===== 微博 / 新浪 =====
+ad.weibo.com
+ssp.sina.com.cn
+sax.sina.com.cn
+beacon.sina.com.cn
+
+# ===== B 站广告投放 =====
+cm.bilibili.com
+ad.bilibili.com
+adfarm.mediaplex.com
+
+# ===== 广告监测 / 第三方 DMP =====
+miaozhen.com
+admaster.com.cn
+admster.com.cn
+doubleclick.net
+googleads.g.doubleclick.net
+pagead2.googlesyndication.com
+adservice.google.com
+adnxs.com
+rubiconproject.com
+pubmatic.com
+openx.net
+criteo.com
+smartadserver.com
+taboola.com
+outbrain.com
+moatads.com
+advertising.com
+yieldmo.com
+sharethrough.com
+
+# ===== 海外广告 SDK =====
+applovin.com
+api.applovin.com
+unityads.unity3d.com
+ads.unitychina.cn
+inmobi.com
+api.inmobi.com
+chartboost.com
+vungle.com
+ads.vungle.com
+mintegral.com
+adcolony.com
+moloco.com
+ironsrc.com
+supersonicads.com
+fyber.com
+smaato.net
+startapp.com
+tapjoy.com
+appnext.com
+liftoff.io
+adikteev.com
+amazon-adsystem.com
+
+# ===== 国内中小广告联盟 / 聚合 SDK =====
+irs01.com
+irs01.net
+adview.cn
+adview.com
+vpadn.com
+domob.cn
+domob.com.cn
+adwo.com
+youmi.net
+moad.cn
+adcome.cn
+aduu.cn
+adwhirl.com
